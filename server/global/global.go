@@ -22,6 +22,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// global 里面存储着全局变量，如数据库句柄，redis缓存句柄等等
 var (
 	GVA_DB        *gorm.DB
 	GVA_DBList    map[string]*gorm.DB
@@ -29,13 +30,13 @@ var (
 	GVA_REDISList map[string]redis.UniversalClient
 	GVA_MONGO     *qmgo.QmgoClient
 	GVA_CONFIG    config.Server
-	GVA_VP        *viper.Viper
+	GVA_VP        *viper.Viper // 保存配置文件的数据Viper
 	// GVA_LOG    *oplogging.Logger
-	GVA_LOG                 *zap.Logger
-	GVA_Timer               timer.Timer = timer.NewTimerTask()
+	GVA_LOG                 *zap.Logger                        // zap 日志工具，用这个打日志
+	GVA_Timer               timer.Timer = timer.NewTimerTask() // 定时任务
 	GVA_Concurrency_Control             = &singleflight.Group{}
 	GVA_ROUTERS             gin.RoutesInfo
-	GVA_ACTIVE_DBNAME       *string
+	GVA_ACTIVE_DBNAME       *string // 当前链接的数据库名称
 	GVA_MCP_SERVER          *server.MCPServer
 	BlackCache              local_cache.Cache
 	lock                    sync.RWMutex

@@ -35,13 +35,14 @@ func initMysqlDatabase(m config.Mysql) *gorm.DB {
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
 
+	// 打开数据库会话
 	if db, err := gorm.Open(mysql.New(mysqlConfig), internal.Gorm.Config(m.Prefix, m.Singular)); err != nil {
 		panic(err)
 	} else {
 		db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
 		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
-		return db
+		sqlDB.SetMaxIdleConns(m.MaxIdleConns) //最大空闲连接数
+		sqlDB.SetMaxOpenConns(m.MaxOpenConns) //最大连接数
+		return db                             // 返回数据库链接实例
 	}
 }

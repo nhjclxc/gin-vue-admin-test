@@ -19,7 +19,6 @@ type RouterGroup struct {
 	AuthorityBtnRouter
 	SysExportTemplateRouter
 	SysParamsRouter
-	TabUserRouter
 }
 
 var (
@@ -42,5 +41,4 @@ var (
 	dictionaryDetailApi = api.ApiGroupApp.SystemApiGroup.DictionaryDetailApi
 	autoCodeTemplateApi = api.ApiGroupApp.SystemApiGroup.AutoCodeTemplateApi
 	exportTemplateApi   = api.ApiGroupApp.SystemApiGroup.SysExportTemplateApi
-	tabUserApi          = api.ApiGroupApp.SystemApiGroup.TabUserApi
 )

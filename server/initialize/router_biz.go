@@ -14,7 +14,7 @@ func initBizRouter(routers ...*gin.RouterGroup) {
 	publicGroup := routers[1]
 	holder(publicGroup, privateGroup) // 占位方法，保证文件可以正确加载，避免go空变量检测报错，请勿删除。
 	{
-		systemRouter := router.RouterGroupApp.System
-		systemRouter.InitTabUserRouter(privateGroup, publicGroup)
+		//systemRouter := router.RouterGroupApp.System
+		//systemRouter.InitTabUserRouter(privateGroup, publicGroup)
 	}
 }

@@ -2,6 +2,7 @@ package system
 
 import "server/service"
 
+// 将所有的接口组织到一个结构体里面
 type ApiGroup struct {
 	DBApi
 	JwtApi
@@ -22,7 +23,6 @@ type ApiGroup struct {
 	AutoCodeHistoryApi
 	AutoCodeTemplateApi
 	SysParamsApi
-	TabUserApi
 }
 
 var (
@@ -45,5 +45,4 @@ var (
 	autoCodePackageService  = service.ServiceGroupApp.SystemServiceGroup.AutoCodePackage
 	autoCodeHistoryService  = service.ServiceGroupApp.SystemServiceGroup.AutoCodeHistory
 	autoCodeTemplateService = service.ServiceGroupApp.SystemServiceGroup.AutoCodeTemplate
-	tabUserService          = service.ServiceGroupApp.SystemServiceGroup.TabUserService
 )

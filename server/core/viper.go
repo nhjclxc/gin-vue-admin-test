@@ -17,21 +17,27 @@ import (
 func Viper() *viper.Viper {
 	config := getConfigPath()
 
-	v := viper.New()
-	v.SetConfigFile(config)
+	v := viper.New()        // 创建viper对象
+	v.SetConfigFile(config) // 设置配置文件地址
 	v.SetConfigType("yaml")
+
+	// 读取配置
 	err := v.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
-	v.WatchConfig()
 
+	// 🔁 热更新配置（这时一个可选配置）
+	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
+		// 配置更新后回进入这个回调函数
 		fmt.Println("config file changed:", e.Name)
+		// 配置更新后，将 Viper 中已加载的配置数据（比如从 config.yaml 中）解析并填充到结构体 global.GVA_CONFIG 中。
 		if err = v.Unmarshal(&global.GVA_CONFIG); err != nil {
 			fmt.Println(err)
 		}
 	})
+	// 将 Viper 中已加载的配置数据（比如从 config.yaml 中）解析并填充到结构体 global.GVA_CONFIG 中。
 	if err = v.Unmarshal(&global.GVA_CONFIG); err != nil {
 		panic(fmt.Errorf("fatal error unmarshal config: %w", err))
 	}

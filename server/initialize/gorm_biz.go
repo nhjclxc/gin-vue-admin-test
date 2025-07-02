@@ -2,12 +2,11 @@ package initialize
 
 import (
 	"server/global"
-	"server/model/system"
 )
 
 func bizModel() error {
 	db := global.GVA_DB
-	err := db.AutoMigrate(system.TabUser{})
+	err := db.AutoMigrate()
 	if err != nil {
 		return err
 	}
