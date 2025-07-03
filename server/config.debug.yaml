@@ -37,16 +37,16 @@ cloudflare-r2:
 cors:
     mode: strict-whitelist
     whitelist:
-        - allow-origin: example1.com
-          allow-methods: POST, GET
+        - allow-origin: "*"
+          allow-methods: POST, GET, PUT, DELETE
           allow-headers: Content-Type,AccessToken,X-CSRF-Token, Authorization, Token,X-Token,X-User-Id
           expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
           allow-credentials: true
-        - allow-origin: example2.com
-          allow-methods: GET, POST
-          allow-headers: content-type
-          expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
-          allow-credentials: true
+#        - allow-origin: example2.com
+#          allow-methods: GET, POST
+#          allow-headers: content-type
+#          expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
+#          allow-credentials: true
 db-list:
     - type: ""
       alias-name: ""

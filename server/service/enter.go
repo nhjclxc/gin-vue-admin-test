@@ -1,6 +1,7 @@
 package service
 
 import (
+	"server/service/business"
 	"server/service/example"
 	"server/service/system"
 )
@@ -8,6 +9,7 @@ import (
 var ServiceGroupApp = new(ServiceGroup)
 
 type ServiceGroup struct {
-	SystemServiceGroup  system.ServiceGroup
-	ExampleServiceGroup example.ServiceGroup
+	SystemServiceGroup   system.ServiceGroup
+	ExampleServiceGroup  example.ServiceGroup
+	BusinessServiceGroup business.ServiceGroup
 }

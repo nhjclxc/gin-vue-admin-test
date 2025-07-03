@@ -8,6 +8,7 @@ import (
 type ApiRouter struct{}
 
 func (s *ApiRouter) InitApiRouter(Router *gin.RouterGroup, RouterPub *gin.RouterGroup) {
+	// 加入路由组前缀api，同时加入操作日志记录
 	apiRouter := Router.Group("api").Use(middleware.OperationRecord())
 	apiRouterWithoutRecord := Router.Group("api")
 

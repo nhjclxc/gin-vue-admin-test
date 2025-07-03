@@ -50,10 +50,19 @@ func initializeSystem() {
 	// gorm连接数据库，获取数据库链接句柄
 	global.GVA_DB = initialize.Gorm()
 
+	// 启动项目的定时任务
 	initialize.Timer()
+
+	// 数据库集群配置
 	initialize.DBList()
-	initialize.SetupHandlers() // 注册全局函数
-	initialize.McpRun()
+
+	// 注册全局函数
+	initialize.SetupHandlers()
+
+	//// 注册MCP服务
+	//initialize.McpRun()
+
+	// 数据库链接成功之后去初始化表
 	if global.GVA_DB != nil {
 		initialize.RegisterTables() // 初始化表
 	}

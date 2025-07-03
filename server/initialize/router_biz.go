@@ -17,4 +17,9 @@ func initBizRouter(routers ...*gin.RouterGroup) {
 		//systemRouter := router.RouterGroupApp.System
 		//systemRouter.InitTabUserRouter(privateGroup, publicGroup)
 	}
+
+	privateGroup.Group("biz")
+	publicGroup.Group("biz")
+	router.RouterGroupApp.Business.BusinessTest1Router.InitBizTest1Router(privateGroup, publicGroup)
+
 }

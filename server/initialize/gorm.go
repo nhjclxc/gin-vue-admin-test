@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// 获取GORM的数据库句柄
 func Gorm() *gorm.DB {
 	switch global.GVA_CONFIG.System.DbType {
 	case "mysql":
@@ -36,8 +37,9 @@ func Gorm() *gorm.DB {
 
 func RegisterTables() {
 	db := global.GVA_DB
-	err := db.AutoMigrate(
 
+	// AutoMigrate方法会根据传入的结构体生成或更新数据库表。
+	err := db.AutoMigrate(
 		system.SysApi{},
 		system.SysIgnoreApi{},
 		system.SysUser{},

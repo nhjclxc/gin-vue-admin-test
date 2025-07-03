@@ -32,7 +32,6 @@ func (fs justFilesFilesystem) Open(name string) (http.File, error) {
 }
 
 // 初始化总路由
-
 func Routers() *gin.Engine {
 	Router := gin.New()
 	Router.Use(gin.Recovery())
@@ -40,6 +39,7 @@ func Routers() *gin.Engine {
 		Router.Use(gin.Logger())
 	}
 
+	// 注册MCP服务
 	sseServer := McpRun()
 
 	// 注册mcp服务
@@ -53,6 +53,7 @@ func Routers() *gin.Engine {
 
 	systemRouter := router.RouterGroupApp.System
 	exampleRouter := router.RouterGroupApp.Example
+
 	// 如果想要不使用nginx代理前端网页，可以修改 web/.env.production 下的
 	// VUE_APP_BASE_API = /
 	// VUE_APP_BASE_PATH = http://localhost
@@ -61,23 +62,32 @@ func Routers() *gin.Engine {
 	// Router.Static("/assets", "./dist/assets")   // dist里面的静态资源
 	// Router.StaticFile("/", "./dist/index.html") // 前端网页入口页面
 
-	Router.StaticFS(global.GVA_CONFIG.Local.StorePath, justFilesFilesystem{http.Dir(global.GVA_CONFIG.Local.StorePath)}) // Router.Use(middleware.LoadTls())  // 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 Router.RunTLS("端口","你的cre/pem文件","你的key文件")
+	// 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 Router.RunTLS("端口","你的cre/pem文件","你的key文件")   类似：Router.RunTLS(":443", "server.pem", "server.key")
+	// Router.Use(middleware.LoadTls())
+	// Router.RunTLS(":443", "server.pem", "server.key")
+
+	Router.StaticFS(global.GVA_CONFIG.Local.StorePath, justFilesFilesystem{http.Dir(global.GVA_CONFIG.Local.StorePath)})
+
 	// 跨域，如需跨域可以打开下面的注释
 	// Router.Use(middleware.Cors()) // 直接放行全部跨域请求
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 	// global.GVA_LOG.Info("use middleware cors")
+
 	docs.SwaggerInfo.BasePath = global.GVA_CONFIG.System.RouterPrefix
 	Router.GET(global.GVA_CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.GVA_LOG.Info("register swagger handler")
-	// 方便统一添加路由组前缀 多服务器上线使用
 
+	// 方便统一添加路由组前缀 多服务器上线使用
+	// PublicGroup不做鉴权（也就是开放接口注册在里面）
+	// PrivateGroup要做鉴权，在下面USE了JWTAuth
 	PublicGroup := Router.Group(global.GVA_CONFIG.System.RouterPrefix)
 	PrivateGroup := Router.Group(global.GVA_CONFIG.System.RouterPrefix)
 
+	// 私有的路由组PrivateGroup要注册一些中间件，如jwt、操作鉴权拦截器
 	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 
 	{
-		// 健康监测
+		// 健康监测，这个接口没用任何有意义的功能，仅仅是给前端用于后端接口是否连通的功能
 		PublicGroup.GET("/health", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "ok")
 		})
@@ -106,7 +116,6 @@ func Routers() *gin.Engine {
 		exampleRouter.InitCustomerRouter(PrivateGroup)                      // 客户路由
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup)         // 文件上传下载功能路由
 		exampleRouter.InitAttachmentCategoryRouterRouter(PrivateGroup)      // 文件上传下载分类
-
 	}
 
 	//插件路由安装

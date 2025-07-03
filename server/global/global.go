@@ -23,6 +23,7 @@ import (
 )
 
 // global 里面存储着全局变量，如数据库句柄，redis缓存句柄等等
+// gav，GAV：Go Vue Admin —— 基于 Go（Gin）+ Vue3 的前后端分离后台管理系统。
 var (
 	GVA_DB        *gorm.DB
 	GVA_DBList    map[string]*gorm.DB

@@ -16,7 +16,9 @@ var (
 )
 
 // GetCasbin 获取casbin实例
+// 初始化并获取 Casbin 权限控制器实例 的工具函数。它使用了 单例模式 并结合了 Casbin 的 基于数据库的策略持久化和缓存机制。
 func GetCasbin() *casbin.SyncedCachedEnforcer {
+	// once.DO实现单例模式
 	once.Do(func() {
 		a, err := gormadapter.NewAdapterByDB(global.GVA_DB)
 		if err != nil {

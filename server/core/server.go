@@ -29,6 +29,7 @@ func RunServer() {
 		system.LoadAll()
 	}
 
+	// 初始化路由
 	Router := initialize.Routers()
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
@@ -49,5 +50,7 @@ func RunServer() {
 	** 版权持有公司：北京翻转极光科技有限责任公司 **
 	** 剔除授权标识需购买商用授权：https://gin-vue-admin.com/empower/index.html **
 `, address, address, global.GVA_CONFIG.MCP.SSEPath, address, global.GVA_CONFIG.MCP.MessagePath)
+
+	// 初始化gin引擎
 	initServer(address, Router, 10*time.Minute, 10*time.Minute)
 }

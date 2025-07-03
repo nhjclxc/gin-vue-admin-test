@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"server/global"
@@ -144,5 +145,17 @@ func (s *DictionaryDetailApi) GetSysDictionaryDetailList(c *gin.Context) {
 		Total:    total,
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
+	}, "获取成功", c)
+}
+
+func (s *DictionaryDetailApi) GetZzz(c *gin.Context) {
+
+	fmt.Printf("GetZzz")
+
+	response.OkWithDetailed(response.PageResult{
+		List:     1,
+		Total:    1,
+		Page:     1,
+		PageSize: 22,
 	}, "获取成功", c)
 }

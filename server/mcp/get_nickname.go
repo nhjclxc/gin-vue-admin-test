@@ -27,7 +27,7 @@ func (t *GetNickname) New() mcp.Tool {
 		))
 }
 
-// Handle 处理获取昵称的请求
+// Handle 处理获取昵称的请求，注意：这是一个挂载在MCP上的SSE请求
 func (t *GetNickname) Handle(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	// 1. 参数验证
 	argsMap, ok := request.Params.Arguments.(map[string]any)

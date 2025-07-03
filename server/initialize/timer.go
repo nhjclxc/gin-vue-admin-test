@@ -8,6 +8,7 @@ import (
 	"server/global"
 )
 
+// 项目定时任务代码
 func Timer() {
 	go func() {
 		var option []cron.Option
