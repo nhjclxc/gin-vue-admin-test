@@ -24,6 +24,16 @@ type LimitConfig struct {
 	Limit int
 }
 
+// 限流中间件，要开启接口限流就Use这个中间件
+func DefaultLimit() gin.HandlerFunc {
+	return LimitConfig{
+		GenerationKey: DefaultGenerationKey,
+		CheckOrMark:   DefaultCheckOrMark,
+		Expire:        global.GVA_CONFIG.System.LimitTimeIP,
+		Limit:         global.GVA_CONFIG.System.LimitCountIP,
+	}.LimitWithTime()
+}
+
 func (l LimitConfig) LimitWithTime() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := l.CheckOrMark(l.GenerationKey(c), l.Expire, l.Limit); err != nil {
@@ -50,15 +60,6 @@ func DefaultCheckOrMark(key string, expire int, limit int) (err error) {
 		global.GVA_LOG.Error("limit", zap.Error(err))
 	}
 	return err
-}
-
-func DefaultLimit() gin.HandlerFunc {
-	return LimitConfig{
-		GenerationKey: DefaultGenerationKey,
-		CheckOrMark:   DefaultCheckOrMark,
-		Expire:        global.GVA_CONFIG.System.LimitTimeIP,
-		Limit:         global.GVA_CONFIG.System.LimitCountIP,
-	}.LimitWithTime()
 }
 
 // SetLimitWithTime 设置访问次数

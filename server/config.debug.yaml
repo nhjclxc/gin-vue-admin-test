@@ -1,10 +1,10 @@
 aliyun-oss:
-    endpoint: yourEndpoint
-    access-key-id: yourAccessKeyId
-    access-key-secret: yourAccessKeySecret
-    bucket-name: yourBucketName
-    bucket-url: yourBucketUrl
-    base-path: yourBasePath
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    access-key-id: xxxxx
+    access-key-secret: xxxxx
+    bucket-name: bucket-name222
+    bucket-url: https://xxxxx.oss-cn-hangzhou.aliyuncs.com
+    base-path: https://xxxxx
 autocode:
     web: web/src
     root: D:\code\go\gin-vue-admin-test
@@ -97,13 +97,13 @@ mcp:
     message_path: /message
     url_prefix: ""
 minio:
-    endpoint: yourEndpoint
-    access-key-id: yourAccessKeyId
-    access-key-secret: yourAccessKeySecret
-    bucket-name: yourBucketName
+    endpoint: ip:9000
+    access-key-id: xxxxx
+    access-key-secret: xxxxxx
+    bucket-name: bucketname
     use-ssl: false
-    base-path: ""
-    bucket-url: http://host:9000/yourBucketName
+    base-path: basepath    # 桶里面的路径前缀，不能包含http://路径
+    bucket-url: https://xxx.com/bucketname
 mongo:
     coll: ""
     options: ""

@@ -1,8 +1,10 @@
 package response
 
+import (
+	"server/model/business"
+)
+
 type BizTest1Res struct {
-	Name         string `json:"name"`         // A regular string field
-	Email        string `json:"email"`        // A pointer to a string, allowing for null values
-	MemberNumber string `json:"memberNumber"` // Uses sql.NullString to handle nullable strings
-	Remark       string `json:"remark"`       // 备注
+	business.BizTest1
+	AAA string `json:"aaa"` // A regular string field
 }

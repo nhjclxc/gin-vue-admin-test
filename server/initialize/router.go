@@ -73,9 +73,13 @@ func Routers() *gin.Engine {
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 	// global.GVA_LOG.Info("use middleware cors")
 
-	docs.SwaggerInfo.BasePath = global.GVA_CONFIG.System.RouterPrefix
-	Router.GET(global.GVA_CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	global.GVA_LOG.Info("register swagger handler")
+	mode := gin.Mode()
+	if mode == gin.DebugMode || mode == "dev" {
+		// 只在 dev/debug 模式下开启 swagger
+		docs.SwaggerInfo.BasePath = global.GVA_CONFIG.System.RouterPrefix
+		Router.GET(global.GVA_CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		global.GVA_LOG.Info("register swagger handler")
+	}
 
 	// 方便统一添加路由组前缀 多服务器上线使用
 	// PublicGroup不做鉴权（也就是开放接口注册在里面）
@@ -84,7 +88,9 @@ func Routers() *gin.Engine {
 	PrivateGroup := Router.Group(global.GVA_CONFIG.System.RouterPrefix)
 
 	// 私有的路由组PrivateGroup要注册一些中间件，如jwt、操作鉴权拦截器
-	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
+	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler()).Use(middleware.GinRecovery(true))
+
+	PublicGroup.Use(middleware.GinRecovery(true))
 
 	{
 		// 健康监测，这个接口没用任何有意义的功能，仅仅是给前端用于后端接口是否连通的功能

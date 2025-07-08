@@ -13,7 +13,7 @@ import (
 	"server/global"
 )
 
-// Viper 配置
+// Viper 配置，使用 Viper 读取配置
 func Viper() *viper.Viper {
 	config := getConfigPath()
 
@@ -53,6 +53,9 @@ func getConfigPath() (config string) {
 	flag.StringVar(&config, "c", "", "choose config file.")
 	flag.Parse()
 	if config != "" { // 命令行参数不为空 将值赋值于config
+		// go run main.go -c config.debug.yaml
+		// go run main.go -c config.release.yaml
+		// go run main.go -c config.test.yaml
 		fmt.Printf("您正在使用命令行的 '-c' 参数传递的值, config 的路径为 %s\n", config)
 		return
 	}
